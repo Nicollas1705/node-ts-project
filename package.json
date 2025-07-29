@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "echo \"STARTING SERVER...\" && ts-node-dev ./src/index.ts"
+    "start": "echo \"STARTING SERVER TS...\" && ts-node-dev ./src/index.ts"
   },
   "dependencies": {
     "dotenv": "^17.2.1",

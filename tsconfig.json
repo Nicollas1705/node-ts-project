@@ -1,18 +1,19 @@
+// Configs to JS files generation
 {
-    "compilerOptions": {
-      "target": "es6",               // Definir versão do JavaScript de saída
-      "module": "commonjs",          // O módulo será CommonJS (para uso no Node.js)
-      "strict": true,                // Habilitar checagem rigorosa de tipos
-      "esModuleInterop": true,       // Garantir compatibilidade com imports de módulos
-      "skipLibCheck": true,          // Ignorar checagem de tipos das dependências
-      "outDir": "./dist",            // Pasta onde os arquivos JS compilados serão gerados
-      "rootDir": "./src",            // Pasta onde estão os arquivos TypeScript
-      "resolveJsonModule": true      // Permite importar arquivos JSON
-    },
-    "include": [
-      "src/**/*.ts"                  // Incluir todos os arquivos .ts na pasta src
-    ],
-    "exclude": [
-      "node_modules"                 // Excluir a pasta node_modules
-    ]
+  "compilerOptions": {
+    "target": "es6", // JS version
+    "module": "commonjs", // Module to Node.js use
+    "strict": true, // Type check
+    "esModuleInterop": true, // Import modules compatibility
+    "skipLibCheck": true, // Ignore dependencies type check
+    "outDir": "./build", // Output JS files path
+    "rootDir": "./src", // Input TS files path
+    "resolveJsonModule": true // Allow import JSON files
+  },
+  "include": [
+    "src/**/*.ts" // Every .ts files in src folder
+  ],
+  "exclude": [
+    "node_modules" // Exclude node_modules
+  ]
 }

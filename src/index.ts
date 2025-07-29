@@ -1,4 +1,6 @@
 // RUN SERVER: npx ts-node-dev ./src/index.ts
+// RUN JS SERVER: node ./build/index.js
+// GENERATE JS: npx tsc
 
 import { server } from './server/Server';
 
