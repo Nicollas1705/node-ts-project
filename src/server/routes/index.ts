@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes'; // Package to simplify status c
 
 const router = Router();
 
-router.post('/', (req, res) => {
+router.post('/body', (req, res) => {
   console.log(`BODY: ${req.body}`);
   return res.send(req.body.message);
 });
@@ -13,7 +13,7 @@ router.get('/param/:param', (req, res) => {
   return res.send(req.params.param);
 });
 
-router.get('/', (req, res) => {
+router.get('/query', (req, res) => {
   console.log(`QUERY: ${req.query.test}`);
   return res.send(req.query.test);
 });
