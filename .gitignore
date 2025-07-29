@@ -1,2 +1,4 @@
 /node_modules
 /**/.DS_Store
+# Ignore .env to not expose sensitive info
+/.env
