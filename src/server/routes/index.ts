@@ -1,7 +1,14 @@
 import { Router } from 'express';
 import { StatusCodes } from 'http-status-codes'; // Package to simplify status code
+import { CitiesController, PeopleController } from './../controllers';
 
 const router = Router();
+
+router.post(
+  '/cities', 
+  CitiesController.createValidation,
+  CitiesController.create,
+);
 
 router.post('/body', (req, res) => {
   console.log(`BODY: ${req.body}`);
