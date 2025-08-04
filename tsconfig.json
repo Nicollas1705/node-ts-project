@@ -11,9 +11,12 @@
     "resolveJsonModule": true // Allow import JSON files
   },
   "include": [
-    "src/**/*.ts" // Every .ts files in src folder
+    "./src/**/*.ts" // Every .ts files in src folder
   ],
-  "exclude": [
-    "node_modules" // Exclude node_modules
+  "exclude": [ // Used to not ask if these .ts files should also be compiled when compile is running
+    "./node_modules",
+    "./jest.config.ts",
+    "./tests",
+    "./build",
   ]
 }

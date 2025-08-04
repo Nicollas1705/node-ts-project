@@ -6,3 +6,6 @@
 
 # Ignore JS output files
 /build
+
+# Ignore tests coverage output
+/coverage
