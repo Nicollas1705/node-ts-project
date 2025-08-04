@@ -4,11 +4,15 @@ import { CitiesController, PeopleController } from './../controllers';
 
 const router = Router();
 
-router.post(
-  '/cities', 
-  CitiesController.createValidation,
-  CitiesController.create,
-);
+router.post('/cities', CitiesController.createValidation, CitiesController.create);
+
+router.get('/cities', CitiesController.getAllValidation, CitiesController.getAll);
+
+router.get('/cities/:id', CitiesController.getByIdValidation, CitiesController.getById);
+
+router.put('/cities/:id', CitiesController.updateByIdValidation, CitiesController.updateById);
+
+router.delete('/cities/:id', CitiesController.deleteByIdValidation, CitiesController.deleteById);
 
 router.post('/body', (req, res) => {
   console.log(`BODY: ${req.body}`);
@@ -28,7 +32,7 @@ router.get('/query', (req, res) => {
 router.get('/error', (req, res) => {
   console.log('Error');
   // return res.status(404).send();
-  return res.status(StatusCodes.NOT_FOUND).send('Error'); // StatusCodes.NOT_FOUND = 404
+  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Error'); // StatusCodes.NOT_FOUND = 404
 });
 
 export { router };

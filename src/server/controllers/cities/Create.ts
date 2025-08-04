@@ -21,5 +21,5 @@ export const createValidation = validation((getSchema) => ({
 export const create = async (req: Request<{}, {}, ICity>, res: Response) => { // * The 3º generic type is interface to infer the BODY is ICity
 // export const create: RequestHandler<{}, {}, ICity> = async (req, res) => {
   // console.log(req.body.name); // * The 'name' is autocompleted since it has a type
-  return res.status(StatusCodes.NOT_IMPLEMENTED).send('Error');
+  return res.status(StatusCodes.NOT_IMPLEMENTED).send('OK');
 };
