@@ -8,7 +8,7 @@
 // Libs used for tests: >npm add -D jest ts-jest @types/jest
 // Init tests config: >npm init jest@latest
 // If it asks, install 'create-jest' lib. Check out 'jest.config.ts' file and compare configs
-// 
+// Run tests: >npm test
 
 import { server } from './server/Server';
 
