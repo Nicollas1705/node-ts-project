@@ -9,3 +9,5 @@
 
 # Ignore tests coverage output
 /coverage
+
+*.sqlite

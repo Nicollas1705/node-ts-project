@@ -8,7 +8,9 @@ export default tseslint.config(
   tseslint.configs.recommended,
   {
     rules: {
-      'indent': ['warn', 2],  
+      'indent': ['warn', 2, {
+        'SwitchCase': 1, // Adjust SwitchCase indentation
+      }],  
       'semi': ['warn', 'always'],
       'quotes': ['warn', 'single'],
       'linebreak-style': ['warn', 'unix'],

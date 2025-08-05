@@ -8,7 +8,7 @@ describe('Cities - GetAll', () => {
 
       expect(res1.statusCode).toEqual(StatusCodes.OK);
       expect(res1.body.length).toEqual(0);
-      expect(res1.header['x-total-count']).toEqual(0); // * Total lenght on DB returned
+      expect(res1.header['x-total-count']).toEqual(0); // * Total length on DB returned
     });
 
     it('with more than 0 results', async () => {
