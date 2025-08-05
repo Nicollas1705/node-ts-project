@@ -10,6 +10,8 @@
 import { Knex } from 'knex';
 import { ETableName } from '../ETableNames';
 
+// ! Note: when some field/table is changed, needs to run rollback command (example below)
+
 // UP method used to create tables/columns
 // >npx knex --knexfile KNEX_ENV_FILE_PATH migrate:latest
 // When 'database.sqlite' is generated, it can be viewed on VSCode with 'SQLite' extension
@@ -18,7 +20,8 @@ export async function up(knex: Knex) {
     ETableName.city, // Table name
     table => { // Table creation builder
       table.bigIncrements('id').primary().index(); // index is used to optimize this column for queries (SELECT)
-      table.string('name', 150).notNullable().index(); // String length is optional
+      table.string('name', 150).checkLength('<=', 150).notNullable().index(); // String length is optional (use 'checkLength' to ensure it)
+      // In this case, the length is checked here when data is insert into DB and also in API validation
 
       table.comment('Table used to storage cities');
     },

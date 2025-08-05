@@ -1,3 +1,5 @@
+// !!!
+
 import { Knex } from 'knex';
 import path from 'path';
 
@@ -26,9 +28,9 @@ export const development: Knex.Config = { // * Ensure to use the correct variabl
 
 export const production: Knex.Config = { // * Ensure to use the correct variable name 'production'
   ...development,
-  connection: ':memory:'
 };
 
 export const test: Knex.Config = { // * Ensure to use the correct variable name 'test'
   ...development,
+  connection: ':memory:'
 };
