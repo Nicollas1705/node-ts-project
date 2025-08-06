@@ -5,6 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import { ICity } from '../../database/models';
 import { CityProvider } from '../../database/providers/city';
 import { defaultErrorResponse } from '../../utils/utils';
+import { YupValidations } from '../../shared/services/YupValidations';
 
 interface IParamProps {
   id?: number; // * Ensure it is nullable, and make the validation required if needed
@@ -16,15 +17,17 @@ interface IBodyProps extends Omit<ICity, 'id'> {} // As it is ignoring 'id', the
 
 export const updateByIdValidation = validation((getSchema) => ({
   params: getSchema<IParamProps>(yup.object().shape({
-    id: yup.number().integer().required().moreThan(0),
+    id: YupValidations.id,
   })),
   body: getSchema<IBodyProps>(yup.object().shape({
-    name: yup.string().required().min(3).max(150),
+    name: YupValidations.name,
   })),
 }));
 
 export const updateById = async (req: Request<IParamProps, {}, IBodyProps>, res: Response) => {
-  const result = await CityProvider.updateById(req.params.id!, req.body);
+  if (!req.params.id) return defaultErrorResponse(res, Error('Invalid ID'));
+
+  const result = await CityProvider.updateById(req.params.id, req.body);
 
   if (result instanceof Error) return defaultErrorResponse(res, result);
 

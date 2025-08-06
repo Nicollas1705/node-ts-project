@@ -4,6 +4,7 @@ import { validation } from '../../shared/middleware';
 import { StatusCodes } from 'http-status-codes';
 import { CityProvider } from '../../database/providers/city';
 import { defaultErrorResponse } from '../../utils/utils';
+import { YupValidations } from '../../shared/services/YupValidations';
 
 interface IQueryProps {
   id?: number;
@@ -14,10 +15,10 @@ interface IQueryProps {
 
 export const getAllValidation = validation((getSchema) => ({
   query: getSchema<IQueryProps>(yup.object().shape({
-    id: yup.number().integer().optional().default(0), // Default value
-    page: yup.number().optional().moreThan(0),
-    limit: yup.number().optional().moreThan(0),
-    filter: yup.string().optional(),
+    id: YupValidations.intPositiveOptional.default(0), // * Default value
+    page: YupValidations.intPositiveOptional,
+    limit: YupValidations.intPositiveOptional,
+    filter: YupValidations.textOptional,
   })),
 }));
 
@@ -28,7 +29,6 @@ export const getAll: RequestHandler<{}, {}, {}, IQueryProps> = async (req, res) 
   const result = await CityProvider
     .getAll(req.query.page ?? 1, req.query.limit ?? 10, filter, Number(req.query.id));
   const totalCount = await CityProvider.count(filter);
-
 
   if (result instanceof Error) return defaultErrorResponse(res, result);
   if (totalCount instanceof Error) return defaultErrorResponse(res, totalCount);

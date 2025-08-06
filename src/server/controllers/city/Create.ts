@@ -7,6 +7,7 @@ import { StatusCodes } from 'http-status-codes';
 import { ICity } from '../../database/models';
 import { CityProvider } from '../../database/providers/city';
 import { defaultErrorResponse } from '../../utils/utils';
+import { YupValidations } from '../../shared/services/YupValidations';
 
 // interface IBodyProps extends ICity {} // With the models created, it will be extended to props
 // * BUT, as the ICity needs an ID, that is not used in body props, we can use Omit to ignore this field
@@ -15,7 +16,7 @@ interface IBodyProps extends Omit<ICity, 'id'> {} // As it is ignoring 'id', the
 // * Set 'T' (of GetAllSchemas) as 'AnyObject' to not infer the type according to internal interface set on getSchema
 export const createValidation = validation((getSchema) => ({
   body: getSchema<IBodyProps>(yup.object().shape({ // Use the interface to infer the type here
-    name: yup.string().required('name é obrigatório (tradução local)').min(3).max(150),
+    name: YupValidations.name,
   })),
 }));
 
