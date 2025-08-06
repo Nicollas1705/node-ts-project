@@ -6,6 +6,7 @@ import { Knex } from '../src/server/database/knex'; // ! Remember to use Knex fr
 
 beforeAll(async () => {
   await Knex.migrate.latest(); // * Await the 'migrate' run to run tests. It initializes the test DB in ':memory:' (as set in env)
+  await Knex.seed.run(); // * Await to populate initial DB data
 });
 
 afterAll(async () => {

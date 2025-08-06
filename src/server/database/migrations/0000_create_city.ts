@@ -1,3 +1,5 @@
+// !!!
+
 // * 'Migrations' is use to generate/delete DB structure (tables/columns)
 // * Note: the files needs to be in sequence (if tableA depends (FK) on tableB, tableB needs to be created first), due to this, is used number in the file name
 

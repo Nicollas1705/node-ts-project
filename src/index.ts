@@ -13,15 +13,18 @@
 import { server } from './server/Server';
 import { Knex } from './server/database/knex';
 
-const startServer = () => {
+const startServer = async () => {
+  await maybeRunKnexDependencies();
+
   const port = process.env.PORT || 3333;
   server.listen(port, () => console.log(`RUNNING SERVER AT ${port} PORT!`));
 };
 
-if (process.env.IS_LOCALHOST !== 'true') { // * Only when running in server (Heroku, AWS, ...), because local we could test migrations without problems
-  Knex.migrate.latest().then(() => { // * Run migrations before server starts (used to auto run for production)
-    startServer();
-  }).catch(console.log); // TODO: search for monitoring Node apps with logs
-} else {
-  startServer();
-}
+const maybeRunKnexDependencies = async () => {
+  if (process.env.IS_LOCALHOST === 'true') return;  // * Only when running in server (Heroku, AWS, ...), because local we could test migrations without problems
+
+  await Knex.migrate.latest().catch(console.log); // TODO: search for monitoring Node apps with logs
+  await Knex.seed.run().catch(console.log); // TODO: search for monitoring Node apps with logs
+};
+
+startServer(); // ! Remember to exec startServer()
