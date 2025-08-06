@@ -11,5 +11,17 @@
 // Run tests: >npm test
 
 import { server } from './server/Server';
+import { Knex } from './server/database/knex';
 
-server.listen(process.env.PORT || 3333, () => console.log('RUNNING APP!!!'));
+const startServer = () => {
+  const port = process.env.PORT || 3333;
+  server.listen(port, () => console.log(`RUNNING SERVER AT ${port} PORT!`));
+};
+
+if (process.env.IS_LOCALHOST !== 'true') { // * Only when running in server (Heroku, AWS, ...), because local we could test migrations without problems
+  Knex.migrate.latest().then(() => { // * Run migrations before server starts (used to auto run for production)
+    startServer();
+  }).catch(console.log); // TODO: search for monitoring Node apps with logs
+} else {
+  startServer();
+}
