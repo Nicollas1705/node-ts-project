@@ -9,13 +9,13 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "start": "echo \"STARTING SERVER TS...\" && ts-node-dev ./src/index.ts",
-    "production-build": "node ./build/index.js",
-    "postinstall": "echo \"COMMANDS AFTER INSTALL LIBS:\" && tsc",
-    "knex:migrate": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:latest",
-    "knex:rollback": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:rollback",
-    "knex:rollback-all": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:rollback --all",
-    "knex:seed": "knex --knexfile ./src/server/database/knex/Environment.ts seed:run"
+    "start": "ts-node-dev ./src/index.ts && echo Start server",
+    "production-build": "node ./build/index.js && echo Start server on prod",
+    "postinstall": "tsc && echo Command run after install libs",
+    "knex:migrate": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:latest && echo Call migration up",
+    "knex:rollback": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:rollback && echo Call migration down for last mitration",
+    "knex:rollback-all": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:rollback --all && echo Call migration down for all tables",
+    "knex:seed": "knex --knexfile ./src/server/database/knex/Environment.ts seed:run && echo Run seeds to populate DB"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
