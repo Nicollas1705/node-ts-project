@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import * as yup from 'yup';
 import { validation } from '../../shared/middleware';
 import { StatusCodes } from 'http-status-codes';
-import { CitiesProvider } from '../../database/providers/city';
+import { CityProvider } from '../../database/providers/city';
 import { defaultErrorResponse } from '../../utils/utils';
 
 interface IQueryProps {
@@ -25,9 +25,9 @@ export const getAll: RequestHandler<{}, {}, {}, IQueryProps> = async (req, res) 
   // console.log(req.query.page); // * The 'page' is autocompleted since it has a type
 
   const filter = req.query.filter ?? '';
-  const result = await CitiesProvider
+  const result = await CityProvider
     .getAll(req.query.page ?? 1, req.query.limit ?? 10, filter, Number(req.query.id));
-  const totalCount = await CitiesProvider.count(filter);
+  const totalCount = await CityProvider.count(filter);
 
 
   if (result instanceof Error) return defaultErrorResponse(res, result);

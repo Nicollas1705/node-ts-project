@@ -1,16 +1,18 @@
 import { Router } from 'express';
-import { CitiesController, PeopleController } from './../controllers';
+import { CityController, PeopleController } from './../controllers';
 
 const router = Router();
 
-router.post('/cities', CitiesController.createValidation, CitiesController.create);
+// TODO: Separate '/cities' into const
 
-router.get('/cities', CitiesController.getAllValidation, CitiesController.getAll);
+router.post('/cities', CityController.createValidation, CityController.create);
 
-router.get('/cities/:id', CitiesController.getByIdValidation, CitiesController.getById);
+router.get('/cities', CityController.getAllValidation, CityController.getAll);
 
-router.put('/cities/:id', CitiesController.updateByIdValidation, CitiesController.updateById);
+router.get('/cities/:id', CityController.getByIdValidation, CityController.getById);
 
-router.delete('/cities/:id', CitiesController.deleteByIdValidation, CitiesController.deleteById);
+router.put('/cities/:id', CityController.updateByIdValidation, CityController.updateById);
+
+router.delete('/cities/:id', CityController.deleteByIdValidation, CityController.deleteById);
 
 export { router };

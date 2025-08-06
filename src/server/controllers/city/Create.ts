@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { validation } from '../../shared/middleware';
 import { StatusCodes } from 'http-status-codes';
 import { ICity } from '../../database/models';
-import { CitiesProvider } from '../../database/providers/city';
+import { CityProvider } from '../../database/providers/city';
 import { defaultErrorResponse } from '../../utils/utils';
 
 // interface IBodyProps extends ICity {} // With the models created, it will be extended to props
@@ -25,7 +25,7 @@ export const create = async (req: Request<{}, {}, ICity>, res: Response) => { //
 // export const create: RequestHandler<{}, {}, ICity> = async (req, res) => {
   // console.log(req.body.name); // * The 'name' is autocompleted since it has a type
 
-  const result = await CitiesProvider.create(req.body); // * Abstraction to interect to DB
+  const result = await CityProvider.create(req.body); // * Abstraction to interect to DB
 
   if (result instanceof Error) return defaultErrorResponse(res, result);
 

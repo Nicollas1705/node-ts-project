@@ -3,7 +3,7 @@ import { validation } from '../../shared/middleware';
 import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
 import { ICity } from '../../database/models';
-import { CitiesProvider } from '../../database/providers/city';
+import { CityProvider } from '../../database/providers/city';
 import { defaultErrorResponse } from '../../utils/utils';
 
 interface IParamProps {
@@ -24,7 +24,7 @@ export const updateByIdValidation = validation((getSchema) => ({
 }));
 
 export const updateById = async (req: Request<IParamProps, {}, IBodyProps>, res: Response) => {
-  const result = await CitiesProvider.updateById(req.params.id!, req.body);
+  const result = await CityProvider.updateById(req.params.id!, req.body);
 
   if (result instanceof Error) return defaultErrorResponse(res, result);
 
