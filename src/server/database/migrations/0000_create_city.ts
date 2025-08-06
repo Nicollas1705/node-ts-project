@@ -25,7 +25,14 @@ export async function up(knex: Knex) {
       table.string('name', 150).checkLength('<=', 150).notNullable().index(); // String length is optional (use 'checkLength' to ensure it)
       // In this case, the length is checked here when data is insert into DB and also in API validation
 
-      table.comment('Table used to storage cities');
+      // * To use FK pointing to another table: .references('columnNameOfReferencedTable').inTable('tableName').onUpdate('CASCADE').onDelete('RESTRICT');
+      // *   Options for 'onUpdate' and 'onDelete' (when referenced table tries to update/delete):
+      // *     'CASCADE': applies the same to this table that references the other one
+      // *     'RESTRICT': deny the action (delete/update)
+      // *     'SET NULL': to set field as 'NULL' , but the field cant be 'notNullable'
+      // *     'NO ACTION': do nothing onAction
+
+      table.comment('Table used to store cities');
     },
   ).then(() => {
     console.log(`# Created table: ${ETableName.city}`); // Simple log after action

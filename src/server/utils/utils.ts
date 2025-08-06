@@ -6,4 +6,3 @@ export const defaultErrorResponse = (res: Response, error: Error): Response => {
     errors: { default: error.message },
   });
 };
-
