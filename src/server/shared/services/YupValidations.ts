@@ -1,6 +1,5 @@
 import * as yup from 'yup';
 
- // TODO: Use default validations (id, name, ...)
 export const YupValidations = {
   // * Despite the yup global translations, any validation can also has an internal translation only for this case:
   // * Example: yup.string().required('msg').min(3, 'msg').max(150, 'msg')

@@ -1,17 +1,22 @@
-// !!!
-
 import { Request, Response } from 'express';
-import * as yup from 'yup';
 import { validation } from '../../shared/middleware';
+import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
 import { IPerson } from '../../database/models';
 import { PersonProvider } from '../../database/providers/person';
 import { defaultErrorResponse } from '../../utils/utils';
 import { YupValidations } from '../../shared/services/YupValidations';
 
+interface IParamProps {
+  id?: number;
+}
+
 interface IBodyProps extends Omit<IPerson, 'id'> {}
 
-export const createValidation = validation((getSchema) => ({
+export const updateByIdValidation = validation((getSchema) => ({
+  params: getSchema<IParamProps>(yup.object().shape({
+    id: YupValidations.id,
+  })),
   body: getSchema<IBodyProps>(yup.object().shape({
     name: YupValidations.name,
     email: YupValidations.email,
@@ -19,10 +24,12 @@ export const createValidation = validation((getSchema) => ({
   })),
 }));
 
-export const create = async (req: Request<{}, {}, IPerson>, res: Response) => {
-  const result = await PersonProvider.create(req.body);
+export const updateById = async (req: Request<IParamProps, {}, IBodyProps>, res: Response) => {
+  if (!req.params.id) return defaultErrorResponse(res, Error('Invalid ID'));
+
+  const result = await PersonProvider.updateById(req.params.id, req.body);
 
   if (result instanceof Error) return defaultErrorResponse(res, result);
 
-  return res.status(StatusCodes.CREATED).json(result);
+  return res.status(StatusCodes.NO_CONTENT).json(result);
 };
