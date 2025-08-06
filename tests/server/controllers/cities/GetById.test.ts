@@ -12,8 +12,8 @@ describe('Cities - GetById', () => {
       const res1 = await testServer.get(`/cities/${res0.body}`).send();
 
       expect(res1.statusCode).toEqual(StatusCodes.OK);
-      expect(res0.body).toHaveProperty('name');
-      expect(res0.body.name).toEqual(nameMock);
+      expect(res1.body).toHaveProperty('name');
+      expect(res1.body.name).toEqual(nameMock);
     });
   });
 

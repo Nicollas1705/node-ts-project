@@ -4,11 +4,11 @@ import { testServer } from '../../../jest.setup';
 describe('Cities - GetAll', () => {
   describe('should succeeds', () => {
     it('with empty response', async () => {
-      const res1 = await testServer.get('/cities').send();
+      const res0 = await testServer.get('/cities').send();
 
-      expect(res1.statusCode).toEqual(StatusCodes.OK);
-      expect(res1.body.length).toEqual(0);
-      expect(res1.header['x-total-count']).toEqual(0); // * Total length on DB returned
+      expect(res0.statusCode).toEqual(StatusCodes.OK);
+      expect(res0.body.length).toEqual(0);
+      expect(Number(res0.headers['x-total-count'])).toEqual(0); // * Total length on DB returned
     });
 
     it('with more than 0 results', async () => {
@@ -20,7 +20,7 @@ describe('Cities - GetAll', () => {
 
       expect(res1.statusCode).toEqual(StatusCodes.OK);
       expect(res1.body.length).toBeGreaterThan(0);
-      expect(res1.header['x-total-count']).toBeGreaterThan(0);
+      expect(Number(res1.headers['x-total-count'])).toBeGreaterThan(0);
     });
   });
 });

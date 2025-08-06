@@ -14,14 +14,6 @@ describe('Cities - Create', () => {
   });
 
   describe('should fail', () => {
-    it('with wrong request method', async () => {
-      const res0 = await testServer
-        .get('/cities')
-        .send({ 'name': 'City' });
-
-      expect(res0.statusCode).toEqual(StatusCodes.METHOD_NOT_ALLOWED);
-    });
-
     it('with short name', async () => {
       const res0 = await testServer
         .post('/cities')
