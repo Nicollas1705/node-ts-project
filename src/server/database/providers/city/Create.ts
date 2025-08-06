@@ -5,8 +5,10 @@ import { Knex } from '../../knex'; // ! Remember to import 'Knex' from internal,
 import { ICity } from '../../models';
 
 // * Interact directly to DB
-export const create = async (city: Omit<ICity, 'id'>): Promise<number | Error> => { // TODO: separate the Omit in a interface
+export const create = async (city: Omit<ICity, 'id'>): Promise<number | Error> => { // TODO: separate the Omit in an interface
   try {
+    // * Note: if it has a FK pointing to another table, it needs to check if this pointing exists there making a query
+
     // Knex('city').insert({ ... }); // * Autocompleted even typing strings
     const [result] = await Knex(ETableName.city) // * With the types set on 'database/knex', we have autocomplete here (for table and column names)
       .insert(city)

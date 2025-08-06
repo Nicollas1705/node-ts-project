@@ -10,7 +10,7 @@ export const getById = async (id: number): Promise<ICity | Error> => {
     if (check.length === 0) throw Error(`Get: id not found (${id})`);
 
     // Knex('city').insert({ ... }); // * Autocompleted even typing strings
-    const result = await Knex(ETableName.city)
+    const result = await Knex(ETableName.city) // ! Remember that to 'result' has a type, it needs to be set on '@types/knex.d.ts' file
       .select('*')
       .where('id', '=', id)
       .first(); // Only the first value

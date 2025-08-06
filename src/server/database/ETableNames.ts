@@ -1,3 +1,4 @@
 export enum ETableName {
-  city = 'city'
+  city = 'city',
+  person = 'person'
 }
