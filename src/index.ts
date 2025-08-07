@@ -10,6 +10,8 @@
 // If it asks, install 'create-jest' lib. Check out 'jest.config.ts' file and compare configs
 // Run tests: >npm test
 
+// * Entity creation sequence: Model (add to knex) > Migration > run migrate > Providers > Controllers/tests
+
 import { server } from './server/Server';
 import { Knex } from './server/database/knex';
 

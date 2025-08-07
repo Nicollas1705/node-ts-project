@@ -4,11 +4,13 @@ import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex';
 import { ICity } from '../../models';
 
+const tableName = ETableName.city;
+
 // * Interact directly to DB
 export const getAll = async (page: number, limit: number, filter: string, id = 0): Promise<ICity[] | Error> => { // * List of ICity
   try {
     // Knex('city').insert({ ... }); // * Autocompleted even typing strings
-    const result = await Knex(ETableName.city)
+    const result = await Knex(tableName)
       .select('*')
       .where('id', '=', Number(id)) // * Convert to 'number' type. The '=' is optional, can use also: .where('column', value)
       .orWhere('name', 'LIKE', `%${filter}%`) // * All 'name' that contains 'filter'
@@ -16,7 +18,7 @@ export const getAll = async (page: number, limit: number, filter: string, id = 0
       .limit(limit); // * Pagination: the next X rows after skip
 
     if (id > 0 && result.every(item => item.id !== id)) {
-      const resultById = await Knex(ETableName.city)
+      const resultById = await Knex(tableName)
         .select('*')
         .where('id', '=', id)
         .first();
