@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { validation } from '../../shared/middleware';
 import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
-import { ICity } from '../../database/models';
+import { ICityUpdate } from '../../database/models';
 import { CityProvider } from '../../database/providers/city';
 import { defaultErrorResponse } from '../../utils/utils';
 import { YupValidations } from '../../shared/services/YupValidations';
@@ -11,16 +11,14 @@ interface IParamProps {
   id?: number; // * Ensure it is nullable, and make the validation required if needed
 }
 
-// interface IBodyProps extends ICity {} // With the models created, it will be extended to props
-// * BUT, as the ICity needs an ID, that is not used in body props, we can use Omit to ignore this field
-interface IBodyProps extends Omit<ICity, 'id'> {} // As it is ignoring 'id', the validation will not show error
+interface IBodyProps extends ICityUpdate {} // As ICityCreate is ignoring 'id', the validation will not show error when 'id' field is missing
 
 export const updateByIdValidation = validation((getSchema) => ({
   params: getSchema<IParamProps>(yup.object().shape({
     id: YupValidations.id,
   })),
   body: getSchema<IBodyProps>(yup.object().shape({
-    name: YupValidations.name,
+    name: YupValidations.name, // * Normally as Uptate is all fields optional, it also would be, but as the 'ICity' has only one field, I'll keep required
   })),
 }));
 

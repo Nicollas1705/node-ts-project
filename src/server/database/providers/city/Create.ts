@@ -2,12 +2,12 @@
 
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex'; // ! Remember to import 'Knex' from internal, not from 'knex' lib
-import { ICity } from '../../models';
+import { ICityCreate } from '../../models';
 
 const tableName = ETableName.city;
 
 // * Interact directly to DB
-export const create = async (city: Omit<ICity, 'id'>): Promise<number | Error> => { // TODO: separate the Omit in an interface
+export const create = async (city: ICityCreate): Promise<number | Error> => {
   try {
     // * Note: if it has a FK pointing to another table, it needs to check if this pointing exists there making a query
 

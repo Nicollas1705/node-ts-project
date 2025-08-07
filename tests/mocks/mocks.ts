@@ -1,6 +1,6 @@
 // !!!
 
-import { ICity, IPerson } from "../../src/server/database/models";
+import { ICityCreate, IPersonCreate, IPersonUpdate } from '../../src/server/database/models';
 
 // * Random integer generator
 function randomInt(min: number = 0, max: number = 999999): number {
@@ -12,13 +12,13 @@ function randomInt(min: number = 0, max: number = 999999): number {
 export const randomEmailGenerator = () => `email${randomInt()}${randomInt()}@email.com`;
 
 // * This is a way to have default values on return, but all of them can be overriden in 'person' param
-export const validPerson = (person?: Partial<Omit<IPerson, 'id'>>): Omit<IPerson, 'id'> => ({
+export const validPerson = (person?: IPersonUpdate): IPersonCreate => ({
   'name': 'City',
   'email': randomEmailGenerator(),
   'cityId': 0,
   ...person,
 });
 
-export const validCity = (): Omit<ICity, 'id'> => ({
+export const validCity = (): ICityCreate => ({
   'name': 'City',
 });

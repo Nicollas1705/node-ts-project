@@ -4,3 +4,7 @@ export interface IPerson {
   email: string;
   cityId: number; // * The FK pointing to city
 }
+
+export interface IPersonCreate extends Omit<IPerson, 'id'> {}
+
+export interface IPersonUpdate extends Partial<IPersonCreate> {}

@@ -2,12 +2,12 @@
 
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex'; // ! Remember to import 'Knex' from internal, not from 'knex' lib
-import { ICity } from '../../models';
+import { ICityUpdate } from '../../models';
 
 const tableName = ETableName.city;
 
 // * Interact directly to DB
-export const updateById = async (id: number, city: Omit<ICity, 'id'>): Promise<void | Error> => { // TODO: separate the Omit in an interface
+export const updateById = async (id: number, city: ICityUpdate): Promise<void | Error> => {
   try {
     // * Note: if it has a FK pointing to another table, it needs to check if this pointing exists there making a query
 

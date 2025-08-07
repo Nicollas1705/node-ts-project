@@ -1,8 +1,8 @@
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex';
-import { IUser } from '../../models';
+import { IUserCreate } from '../../models';
 
-export const create = async (user: Omit<IUser, 'id'>): Promise<number | Error> => { // TODO: separate the Omit in an interface
+export const create = async (user: IUserCreate): Promise<number | Error> => {
   try {
     const [result] = await Knex(ETableName.user)
       .insert(user)

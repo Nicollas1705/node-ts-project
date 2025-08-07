@@ -1,11 +1,11 @@
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex';
-import { IPerson } from '../../models';
+import {  IPersonCreate } from '../../models';
 import { CityProvider } from '../city';
 
 const tableName = ETableName.person;
 
-export const create = async (person: Omit<IPerson, 'id'>): Promise<number | Error> => { // TODO: separate the Omit in an interface
+export const create = async (person: IPersonCreate): Promise<number | Error> => {
   try {
     const checkExistsCity = await CityProvider.getById(person.cityId);
     if (checkExistsCity instanceof Error) return Error('Create: invalid city ID');
