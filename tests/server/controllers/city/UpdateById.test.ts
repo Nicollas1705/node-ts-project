@@ -1,12 +1,14 @@
 import { StatusCodes } from 'http-status-codes';
 import { testServer } from '../../../jest.setup';
+import { validCity } from '../../../mocks/mocks';
 
 describe('City - UpdateById', () => {
   describe('should succeeds', () => {
     it('with valid request', async () => {
-      const res0 = await testServer.post('/cities').send({ 'name': 'test' });
+      const res0 = await testServer.post('/cities').send(validCity());
 
       expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
 
       const res1 = await testServer.put(`/cities/${res0.body}`).send({ 'name': 'new name' });
 
@@ -16,7 +18,7 @@ describe('City - UpdateById', () => {
 
   describe('should fail', () => {
     it('with invalid text id', async () => {
-      const res0 = await testServer.put('/cities/string').send({ 'name': 'new name' });
+      const res0 = await testServer.put('/cities/string').send(validCity());
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.params.id');
@@ -24,7 +26,7 @@ describe('City - UpdateById', () => {
     });
 
     it('with decimal id', async () => {
-      const res0 = await testServer.put('/cities/1.1').send({ 'name': 'new name' });
+      const res0 = await testServer.put('/cities/1.1').send(validCity());
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.params.id');
@@ -32,7 +34,7 @@ describe('City - UpdateById', () => {
     });
 
     it('with 0 id', async () => {
-      const res0 = await testServer.put('/cities/0').send({ 'name': 'new name' });
+      const res0 = await testServer.put('/cities/0').send(validCity());
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.params.id');
@@ -40,7 +42,7 @@ describe('City - UpdateById', () => {
     });
     
     it('with non-existent id', async () => {
-      const res0 = await testServer.put('/cities/9999').send({ 'name': 'new name' });
+      const res0 = await testServer.put('/cities/9999').send(validCity());
 
       expect(res0.statusCode).toEqual(StatusCodes.INTERNAL_SERVER_ERROR);
       expect(res0.body).toHaveProperty('errors.default');

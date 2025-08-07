@@ -8,6 +8,7 @@ describe('City - GetById', () => {
       const res0 = await testServer.post('/cities').send({ 'name': nameMock });
 
       expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
 
       const res1 = await testServer.get(`/cities/${res0.body}`).send();
 

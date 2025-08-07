@@ -9,7 +9,7 @@ import { ETableName } from '../ETableNames';
 
 export const seed = async (knex: Knex) => {
   const [{ count }] = await knex(ETableName.city).count<[{ count: number }]>('* as count');
-  if (!Number.isInteger(count) || Number(count) > 0) return; // * Since seeds is always executed, it ensures that only exec when DB is empty
+  if (!Number.isInteger(count) || Number(count) > 0) return; // * Since 'seeds' is always executed, it ensures that only exec when DB is empty
 
   const citiesToInsert = someCities.map(city => ({ name: city }));
 

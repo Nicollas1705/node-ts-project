@@ -1,12 +1,13 @@
 import { StatusCodes } from 'http-status-codes';
 import { testServer } from '../../../jest.setup';
+import { validCity } from '../../../mocks/mocks';
 
 describe('City - Create', () => {
   describe('should succeeds', () => {
     it('with valid request', async () => {
       const res0 = await testServer
         .post('/cities')
-        .send({ 'name': 'City' });
+        .send(validCity());
 
       expect(res0.statusCode).toEqual(StatusCodes.CREATED);
       expect(typeof res0.body).toEqual('number');
@@ -31,7 +32,7 @@ describe('City - Create', () => {
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.body.name');
-      expect(res0.body.errors.body.name).toContain('obrigatório');
+      expect(res0.body.errors.body.name).toContain('required');
     });
   });
 });

@@ -15,7 +15,7 @@ interface IQueryProps {
 
 export const getAllValidation = validation((getSchema) => ({
   query: getSchema<IQueryProps>(yup.object().shape({
-    id: YupValidations.intPositiveOptional.default(0), // * Default value
+    id: yup.number().integer().required().default(0), // * Default value
     page: YupValidations.intPositiveOptional,
     limit: YupValidations.intPositiveOptional,
     filter: YupValidations.textOptional,
