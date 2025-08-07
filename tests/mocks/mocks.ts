@@ -1,6 +1,10 @@
 // !!!
 
-import { ICityCreate, IPersonCreate, IPersonUpdate } from '../../src/server/database/models';
+import { IUser } from '../../src/server/database/models';
+import { ICityCreate } from '../../src/server/database/providers/city/Create';
+import { IPersonCreate } from '../../src/server/database/providers/person/Create';
+import { IPersonUpdate } from '../../src/server/database/providers/person/UpdateById';
+import { IUserCreate } from '../../src/server/database/providers/user/Create';
 
 // * Random integer generator
 function randomInt(min: number = 0, max: number = 999999): number {
@@ -13,7 +17,7 @@ export const randomEmailGenerator = () => `email${randomInt()}${randomInt()}@ema
 
 // * This is a way to have default values on return, but all of them can be overriden in 'person' param
 export const validPerson = (person?: IPersonUpdate): IPersonCreate => ({
-  'name': 'City',
+  'name': 'Name',
   'email': randomEmailGenerator(),
   'cityId': 0,
   ...person,

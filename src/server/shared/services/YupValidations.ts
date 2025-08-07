@@ -5,7 +5,9 @@ export const YupValidations = {
   // * Example: yup.string().required('msg').min(3, 'msg').max(150, 'msg')
   id: yup.number().integer().required().moreThan(0),
   name: yup.string().required().min(3).max(150),
-  email: yup.string().required().email().max(150),
+  password: yup.string().required().min(6),
+  email: yup.string().required().email().max(150).min(5),
   intPositiveOptional: yup.number().integer().optional().moreThan(0),
+  text: yup.string().required(),
   textOptional: yup.string().optional(),
 };

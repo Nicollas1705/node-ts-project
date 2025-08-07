@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import { validation } from '../../shared/middleware';
 import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
@@ -16,7 +16,7 @@ export const deleteByIdValidation = validation((getSchema) => ({
   })),
 }));
 
-export const deleteById = async (req: Request<IParamProps>, res: Response) => {
+export const deleteById: RequestHandler<IParamProps> = async (req, res) => {
   if (!req.params.id) return defaultErrorResponse(res, Error('Invalid ID'));
 
   const result = await PersonProvider.deleteById(req.params.id);

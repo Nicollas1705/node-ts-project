@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import { validation } from '../../shared/middleware';
 import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
@@ -24,12 +24,12 @@ export const updateByIdValidation = validation((getSchema) => ({
   })),
 }));
 
-export const updateById = async (req: Request<IParamProps, {}, IBodyProps>, res: Response) => {
+export const updateById: RequestHandler<IParamProps, {}, IBodyProps> = async (req, res) => {
   if (!req.params.id) return defaultErrorResponse(res, Error('Invalid ID'));
 
   const result = await PersonProvider.updateById(req.params.id, req.body);
 
   if (result instanceof Error) return defaultErrorResponse(res, result);
 
-  return res.status(StatusCodes.NO_CONTENT).json(result);
+  return res.status(StatusCodes.NO_CONTENT).send();
 };
