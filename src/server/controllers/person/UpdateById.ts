@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { validation } from '../../shared/middleware';
 import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
-import { IPersonUpdate } from '../../database/models';
+import { IPersonUpdate } from '../../database/providers/person/UpdateById';
 import { PersonProvider } from '../../database/providers/person';
 import { defaultErrorResponse } from '../../utils/utils';
 import { YupValidations } from '../../shared/services/YupValidations';

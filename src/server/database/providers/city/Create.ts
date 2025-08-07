@@ -3,9 +3,15 @@
 import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex'; // ! Remember to import 'Knex' from internal, not from 'knex' lib
-import { ICityCreate } from '../../models';
+import { ICity } from '../../models';
 
 const tableName = ETableName.city;
+
+// interface ICityCreate extends ICity {} // With the models created, it will be extended
+// * BUT, as the ICity needs an ID, that is not used in creation, we can use Omit to ignore this field
+export interface ICityCreate extends Omit<ICity, 'id'> {} // As it is ignoring 'id', the validation will not show error when missing 'id'
+// * Interface used only to have an easier way to create
+// * Note: to Omit more fields, use: Omit<Interface, 'field1' | 'field2'>
 
 // * Interact directly to DB
 export const create = async (city: ICityCreate): Promise<number | Error> => {

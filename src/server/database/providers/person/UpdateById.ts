@@ -1,10 +1,12 @@
 import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex';
-import { IPersonUpdate } from '../../models';
 import { CityProvider } from '../city';
+import { IPersonCreate } from './Create';
 
 const tableName = ETableName.person;
+
+export interface IPersonUpdate extends Partial<IPersonCreate> {}
 
 export const updateById = async (id: number, person: IPersonUpdate): Promise<void | Error> => {
   try {

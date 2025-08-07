@@ -1,10 +1,12 @@
 import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex';
-import {  IPersonCreate } from '../../models';
+import { IPerson } from '../../models';
 import { CityProvider } from '../city';
 
 const tableName = ETableName.person;
+
+export interface IPersonCreate extends Omit<IPerson, 'id'> {}
 
 export const create = async (person: IPersonCreate): Promise<number | Error> => {
   try {

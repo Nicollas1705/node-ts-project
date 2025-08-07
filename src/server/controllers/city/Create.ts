@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import * as yup from 'yup';
 import { validation } from '../../shared/middleware';
 import { StatusCodes } from 'http-status-codes';
-import { ICityCreate } from '../../database/models';
+import { ICityCreate } from '../../database/providers/city/Create';
 import { CityProvider } from '../../database/providers/city';
 import { defaultErrorResponse } from '../../utils/utils';
 import { YupValidations } from '../../shared/services/YupValidations';

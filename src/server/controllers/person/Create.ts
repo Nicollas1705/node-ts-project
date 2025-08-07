@@ -1,10 +1,8 @@
-// !!!
-
 import { Request, Response } from 'express';
 import * as yup from 'yup';
 import { validation } from '../../shared/middleware';
 import { StatusCodes } from 'http-status-codes';
-import { IPersonCreate } from '../../database/models';
+import { IPersonCreate } from '../../database/providers/person/Create';
 import { PersonProvider } from '../../database/providers/person';
 import { defaultErrorResponse } from '../../utils/utils';
 import { YupValidations } from '../../shared/services/YupValidations';

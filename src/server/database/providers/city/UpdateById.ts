@@ -3,9 +3,12 @@
 import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex'; // ! Remember to import 'Knex' from internal, not from 'knex' lib
-import { ICityUpdate } from '../../models';
+import { ICityCreate } from './Create';
 
 const tableName = ETableName.city;
+
+export interface ICityUpdate extends Partial<ICityCreate> {} // As it is ignoring 'id', the validation will not show error when missing 'id'
+// * Partial: Since 'ICityCreate' has the properties, it would require all fields. But 'Partial' turns all as optional.
 
 // * Interact directly to DB
 export const updateById = async (id: number, city: ICityUpdate): Promise<void | Error> => {
