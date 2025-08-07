@@ -26,3 +26,12 @@ export const validPerson = (person?: IPersonUpdate): IPersonCreate => ({
 export const validCity = (): ICityCreate => ({
   'name': 'City',
 });
+
+export const randomPasswordGenerator = () => `${randomInt()}${randomInt()}`;
+
+export const validUser = (user?: Partial<Omit<IUser, 'id'>>): IUserCreate => ({
+  'name': 'User',
+  'email': randomEmailGenerator(),
+  'password': randomPasswordGenerator(),
+  ...user,
+});

@@ -12,6 +12,12 @@
 
 // * Entity creation sequence: Model (add to knex) > Migration > run migrate > Providers > Controllers/tests
 
+// * When installing a lib, also install its TS dependencies (in dev dependencies):
+// >npm add LIB_NAME
+// >npm add -D @types/LIB_NAME
+
+// TODO: search about Swagger for documentation
+
 import { server } from './server/Server';
 import { Knex } from './server/database/knex';
 import { crashLogger } from './server/shared/services/CrashLogger';
