@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { testServer } from '../../../jest.setup';
 
-describe('Cities - GetAll', () => {
+describe('City - GetAll', () => {
   describe('should succeeds', () => {
     it('with more than 0 results', async () => {
       const res0 = await testServer.post('/cities').send({ 'name': 'test' });

@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { testServer } from '../../../jest.setup';
 
-describe('Cities - GetById', () => {
+describe('City - GetById', () => {
   describe('should succeeds', () => {
     it('with valid request', async () => {
       const nameMock = 'test';
