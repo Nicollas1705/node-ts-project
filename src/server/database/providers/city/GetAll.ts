@@ -1,5 +1,6 @@
 // !!!
 
+import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex';
 import { ICity } from '../../models';
@@ -28,7 +29,7 @@ export const getAll = async (page: number, limit: number, filter: string, id = 0
 
     return result;
   } catch (error) {
-    console.log(error); // TODO: search for monitoring Node apps with logs
+    crashLogger(error);
     return Error('Get: error DB');
   }
 };

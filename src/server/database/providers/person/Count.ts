@@ -1,3 +1,4 @@
+import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex';
 
@@ -14,7 +15,7 @@ export const count = async (filter: string = ''): Promise<number | Error> => {
 
     return Error('Count: invalid result');
   } catch (error) {
-    console.log(error); // TODO: search for monitoring Node apps with logs
+    crashLogger(error);
     return Error('Count: error DB');
   }
 };

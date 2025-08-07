@@ -1,5 +1,6 @@
 // !!!
 
+import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex'; // ! Remember to import 'Knex' from internal, not from 'knex' lib
 import { ICityUpdate } from '../../models';
@@ -21,7 +22,7 @@ export const updateById = async (id: number, city: ICityUpdate): Promise<void | 
 
     if (result <= 0) return Error('Update: invalid result'); // Check if succeeds (result can be 0 or 1)
   } catch (error) {
-    console.log(error); // TODO: search for monitoring Node apps with logs
+    crashLogger(error);
     return Error('Update: error DB');
   }
 };

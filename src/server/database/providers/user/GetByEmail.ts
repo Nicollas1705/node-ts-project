@@ -1,3 +1,4 @@
+import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex';
 import { IUser } from '../../models';
@@ -18,7 +19,7 @@ export const getByEmail = async (email: string): Promise<IUser | Error> => {
 
     return Error('Get: invalid result');
   } catch (error) {
-    console.log(error); // TODO: search for monitoring Node apps with logs
+    crashLogger(error);
     return Error('Get: error DB');
   }
 };

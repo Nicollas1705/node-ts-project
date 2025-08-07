@@ -14,6 +14,7 @@
 
 import { server } from './server/Server';
 import { Knex } from './server/database/knex';
+import { crashLogger } from './server/shared/services/CrashLogger';
 
 const startServer = async () => {
   await maybeRunKnexDependencies();
@@ -25,8 +26,8 @@ const startServer = async () => {
 const maybeRunKnexDependencies = async () => {
   if (process.env.IS_LOCALHOST === 'true') return;  // * Only when running in server (Heroku, AWS, ...), because local we could test migrations without problems
 
-  await Knex.migrate.latest().catch(console.log); // TODO: search for monitoring Node apps with logs
-  await Knex.seed.run().catch(console.log); // TODO: search for monitoring Node apps with logs
+  await Knex.migrate.latest().catch(crashLogger);
+  await Knex.seed.run().catch(crashLogger);
 };
 
 startServer(); // ! Remember to exec startServer()

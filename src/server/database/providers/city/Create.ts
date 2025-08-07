@@ -1,5 +1,6 @@
 // !!!
 
+import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex'; // ! Remember to import 'Knex' from internal, not from 'knex' lib
 import { ICityCreate } from '../../models';
@@ -23,7 +24,7 @@ export const create = async (city: ICityCreate): Promise<number | Error> => {
 
     return Error('Create: invalid result');
   } catch (error) {
-    console.log(error); // TODO: search for monitoring Node apps with logs
+    crashLogger(error);
     return Error('Create: error DB');
   }
 };

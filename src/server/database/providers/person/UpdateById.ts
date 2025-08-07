@@ -1,3 +1,4 @@
+import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex';
 import { IPersonUpdate } from '../../models';
@@ -21,7 +22,7 @@ export const updateById = async (id: number, person: IPersonUpdate): Promise<voi
 
     if (result <= 0) return Error('Update: invalid result');
   } catch (error) {
-    console.log(error); // TODO: search for monitoring Node apps with logs
+    crashLogger(error);
     return Error('Update: error DB');
   }
 };

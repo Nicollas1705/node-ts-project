@@ -1,3 +1,4 @@
+import { crashLogger } from '../../../shared/services/CrashLogger';
 import { ETableName } from '../../ETableNames';
 import { Knex } from '../../knex';
 import { IUserCreate } from '../../models';
@@ -13,7 +14,7 @@ export const create = async (user: IUserCreate): Promise<number | Error> => {
 
     return Error('Create: invalid result');
   } catch (error) {
-    console.log(error); // TODO: search for monitoring Node apps with logs
+    crashLogger(error);
     return Error('Create: error DB');
   }
 };
