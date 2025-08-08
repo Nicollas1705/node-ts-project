@@ -8,7 +8,7 @@ import { UserProvider } from '../../database/providers/user';
 import { defaultErrorResponse } from '../../utils/utils';
 import { YupValidations } from '../../shared/services/YupValidations';
 import { IUser } from '../../database/models';
-import { PassCrypt } from '../../shared/services';
+import { JwtError, JwtService, PassCrypt } from '../../shared/services';
 
 interface IBodyProps extends Omit<IUser, 'id' | 'name'> {}
 
@@ -22,18 +22,21 @@ export const signInValidation = validation((getSchema) => ({
 
 export const signIn: RequestHandler<{}, {}, IBodyProps> = async (req, res) => {
   const { email, password } = req.body; // * Destruction from body to 'email' and 'password'
-  const result = await UserProvider.getByEmail(email);
+  const user = await UserProvider.getByEmail(email);
 
   const errorResponse = () =>
     defaultErrorResponse(res, Error('Invalid login'), StatusCodes.UNAUTHORIZED); // ! Dont specify what field got error
 
-  if (result instanceof Error) return errorResponse();
+  if (user instanceof Error) return errorResponse();
 
-  const isValidPassword = await PassCrypt.verifyPassword(password, result.password);
+  const isValidPassword = await PassCrypt.verifyPassword(password, user.password);
 
   if (!isValidPassword) return errorResponse();
 
-  return res.status(StatusCodes.OK).json({
-    accessToken: 'TOKEN JWT',
-  });
+  const accessToken = JwtService.sign({ userId: user.id });
+  if (accessToken === JwtError.secretNotFound) { // * Check if JWT was corretly generated
+    return defaultErrorResponse(res, Error(accessToken));
+  }
+
+  return res.status(StatusCodes.OK).json({ accessToken });
 };
