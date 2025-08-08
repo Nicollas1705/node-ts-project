@@ -1,5 +1,6 @@
 import { Knex } from 'knex';
 import { ETableName } from '../ETableNames';
+import { devLog } from '../../utils/utils';
 
 const tableName = ETableName.user;
 
@@ -14,12 +15,12 @@ export async function up(knex: Knex) {
       table.comment(`Table used to store: ${tableName}`);
     },
   ).then(() => {
-    console.log(`# Created table: ${tableName}`);
+    devLog(`# Created table: ${tableName}`);
   });
 }
 
 export async function down(knex: Knex) {
   return knex.schema.dropTable(tableName).then(() => {
-    console.log(`# Dropped table: ${tableName}`);
+    devLog(`# Dropped table: ${tableName}`);
   });
 }

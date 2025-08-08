@@ -14,6 +14,7 @@
 
 import { Knex } from 'knex';
 import { ETableName } from '../ETableNames';
+import { devLog } from '../../utils/utils';
 
 const tableName = ETableName.city;
 
@@ -41,7 +42,7 @@ export async function up(knex: Knex) {
       table.comment(`Table used to store: ${tableName}`);
     },
   ).then(() => {
-    console.log(`# Created table: ${tableName}`); // Simple log after action
+    devLog(`# Created table: ${tableName}`); // Simple log after action
   });
 }
 
@@ -49,6 +50,6 @@ export async function up(knex: Knex) {
 // >npx knex --knexfile KNEX_ENV_FILE_PATH migrate:rollback
 export async function down(knex: Knex) {
   return knex.schema.dropTable(tableName).then(() => {
-    console.log(`# Dropped table: ${tableName}`); // Simple log after action
+    devLog(`# Dropped table: ${tableName}`); // Simple log after action
   });
 }

@@ -9,3 +9,14 @@ export const defaultErrorResponse = (
     errors: { default: error.message },
   });
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const devLog = (message?: any, ...optionalParams: any[]) => {
+  const env = process.env.NODE_ENV;
+  if (env == null) return;
+
+  const shouldLog = ['dev', 'develop', 'development'].includes(env);
+  if (!shouldLog) return;
+
+  console.log(message, optionalParams);
+};
