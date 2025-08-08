@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { testServer } from '../../../jest.setup';
-import { validCity, validPerson } from '../../../mocks/mocks';
+import { randomEmailGenerator, validCity, validPerson } from '../../../mocks/mocks';
 
 describe('People - UpdateById', () => {
   let cityId: number | undefined = undefined;
@@ -17,7 +17,7 @@ describe('People - UpdateById', () => {
       expect(typeof res0.body).toEqual('number');
 
       const res1 = await testServer.put(`/people/${res0.body}`)
-        .send(validPerson({cityId: cityId, name: 'new name'}));
+        .send(validPerson({ cityId: cityId, name: 'new name' }));
 
       expect(res1.statusCode).toEqual(StatusCodes.NO_CONTENT);
     });
@@ -29,13 +29,107 @@ describe('People - UpdateById', () => {
       expect(typeof res0.body).toEqual('number');
 
       const res1 = await testServer.put(`/people/${res0.body}`)
-        .send(validPerson({cityId: cityId, name: 'new name'}));
+        .send(validPerson({ cityId: cityId, name: 'new name' }));
 
       expect(res1.statusCode).toEqual(StatusCodes.NO_CONTENT);
+    });
+
+    it('with valid request with only name', async () => {
+      const res0 = await testServer.post('/people').send(validPerson({cityId: cityId}));
+
+      expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
+
+      const newName = 'new name';
+      const res1 = await testServer.put(`/people/${res0.body}`)
+        .send({ name: newName });
+
+      expect(res1.statusCode).toEqual(StatusCodes.NO_CONTENT);
+
+      const res2 = await testServer.get(`/people/${res0.body}`).send();
+
+      expect(res2.statusCode).toEqual(StatusCodes.OK);
+      expect(res2.body).toHaveProperty('name');
+      expect(res2.body.name).toEqual(newName);
+    });
+
+    it('with valid request with only email', async () => {
+      const res0 = await testServer.post('/people').send(validPerson({cityId: cityId}));
+
+      expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
+
+      const newEmail = randomEmailGenerator();
+      const res1 = await testServer.put(`/people/${res0.body}`)
+        .send({ email: newEmail });
+
+      expect(res1.statusCode).toEqual(StatusCodes.NO_CONTENT);
+
+      const res2 = await testServer.get(`/people/${res0.body}`).send();
+
+      expect(res2.statusCode).toEqual(StatusCodes.OK);
+      expect(res2.body).toHaveProperty('email');
+      expect(res2.body.email).toEqual(newEmail);
     });
   });
 
   describe('should fail', () => {
+    it('with invalid email', async () => {
+      const res0 = await testServer.post('/people').send(validPerson({cityId: cityId}));
+
+      expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
+
+      const res1 = await testServer.put(`/people/${res0.body}`)
+        .send({ email: 'email' });
+
+      expect(res1.statusCode).toEqual(StatusCodes.BAD_REQUEST);
+      expect(res1.body).toHaveProperty('errors.body.email');
+      expect(res1.body.errors.body.email).toContain('must be a valid email');
+    });
+
+    it('with invalid email even with complete fields', async () => {
+      const res0 = await testServer.post('/people').send(validPerson({cityId: cityId}));
+
+      expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
+
+      const res1 = await testServer.put(`/people/${res0.body}`)
+        .send(validPerson({ cityId, email: 'email' }));
+
+      expect(res1.statusCode).toEqual(StatusCodes.BAD_REQUEST);
+      expect(res1.body).toHaveProperty('errors.body.email');
+      expect(res1.body.errors.body.email).toContain('must be a valid email');
+    });
+
+    it('with invalid name', async () => {
+      const res0 = await testServer.post('/people').send(validPerson({cityId: cityId}));
+
+      expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
+
+      const res1 = await testServer.put(`/people/${res0.body}`)
+        .send({ name: 'na' });
+
+      expect(res1.statusCode).toEqual(StatusCodes.BAD_REQUEST);
+      expect(res1.body).toHaveProperty('errors.body.name');
+      expect(res1.body.errors.body.name).toContain('>= 3');
+    });
+
+    it('with invalid name even with complete fields', async () => {
+      const res0 = await testServer.post('/people').send(validPerson({cityId: cityId}));
+
+      expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
+
+      const res1 = await testServer.put(`/people/${res0.body}`)
+        .send(validPerson({ cityId, name: 'na' }));
+
+      expect(res1.statusCode).toEqual(StatusCodes.BAD_REQUEST);
+      expect(res1.body).toHaveProperty('errors.body.name');
+      expect(res1.body.errors.body.name).toContain('>= 3');
+    });
+
     it('with invalid text id', async () => {
       const res0 = await testServer.put('/people/string').send(validPerson({cityId: cityId}));
 

@@ -12,10 +12,8 @@ describe('People - GetById', () => {
   describe('should succeeds', () => {
     it('with valid request', async () => {
       const nameMock = 'test';
-      const person = validPerson({cityId: cityId});
-      person.name = nameMock;
 
-      const res0 = await testServer.post('/people').send(person);
+      const res0 = await testServer.post('/people').send(validPerson({ cityId: cityId, name: nameMock }));
 
       expect(res0.statusCode).toEqual(StatusCodes.CREATED);
       expect(typeof res0.body).toEqual('number');

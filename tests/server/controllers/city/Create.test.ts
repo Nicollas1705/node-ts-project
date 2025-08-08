@@ -25,7 +25,7 @@ describe('City - Create', () => {
       expect(res0.body.errors.body.name).toContain('>= 3');
     });
 
-    it('with invalid name', async () => {
+    it('with no name', async () => {
       const res0 = await testServer
         .post('/cities')
         .send({ 'name': undefined });

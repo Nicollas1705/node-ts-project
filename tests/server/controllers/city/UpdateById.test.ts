@@ -17,6 +17,32 @@ describe('City - UpdateById', () => {
   });
 
   describe('should fail', () => {
+    it('with invalid name', async () => {
+      const res0 = await testServer.post('/cities').send(validCity());
+
+      expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
+
+      const res1 = await testServer.put(`/cities/${res0.body}`).send({ name: 'na' });
+
+      expect(res1.statusCode).toEqual(StatusCodes.BAD_REQUEST);
+      expect(res1.body).toHaveProperty('errors.body.name');
+      expect(res1.body.errors.body.name).toContain('>= 3');
+    });
+
+    it('with no name', async () => {
+      const res0 = await testServer.post('/cities').send(validCity());
+
+      expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
+
+      const res1 = await testServer.put(`/cities/${res0.body}`).send();
+
+      expect(res1.statusCode).toEqual(StatusCodes.BAD_REQUEST);
+      expect(res1.body).toHaveProperty('errors.body.name');
+      expect(res1.body.errors.body.name).toContain('required');
+    });
+
     it('with invalid text id', async () => {
       const res0 = await testServer.put('/cities/string').send(validCity());
 

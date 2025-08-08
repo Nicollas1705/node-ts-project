@@ -58,7 +58,7 @@ describe('Person - Create', () => {
     it('with no name', async () => {
       const res0 = await testServer
         .post('/people')
-        .send({ cityId, email: randomEmailGenerator() });
+        .send(validPerson({ cityId, name: undefined }));
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.body.name');
@@ -68,7 +68,7 @@ describe('Person - Create', () => {
     it('with no email', async () => {
       const res0 = await testServer
         .post('/people')
-        .send({ cityId, name: 'name' });
+        .send(validPerson({ cityId, email: undefined }));
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.body.email');
@@ -88,7 +88,7 @@ describe('Person - Create', () => {
     it('with no cityId', async () => {
       const res0 = await testServer
         .post('/people')
-        .send({ name: 'name', email: randomEmailGenerator() });
+        .send(validPerson({ cityId: undefined }));
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.body.cityId');

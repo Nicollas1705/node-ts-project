@@ -2,6 +2,7 @@
 
 import { IUser } from '../../src/server/database/models';
 import { ICityCreate } from '../../src/server/database/providers/city/Create';
+import { ICityUpdate } from '../../src/server/database/providers/city/UpdateById';
 import { IPersonCreate } from '../../src/server/database/providers/person/Create';
 import { IPersonUpdate } from '../../src/server/database/providers/person/UpdateById';
 import { IUserCreate } from '../../src/server/database/providers/user/Create';
@@ -23,8 +24,9 @@ export const validPerson = (person?: IPersonUpdate): IPersonCreate => ({
   ...person,
 });
 
-export const validCity = (): ICityCreate => ({
+export const validCity = (city?: ICityUpdate): ICityCreate => ({
   'name': 'City',
+  ...city,
 });
 
 export const randomPasswordGenerator = () => `${randomInt()}${randomInt()}`;

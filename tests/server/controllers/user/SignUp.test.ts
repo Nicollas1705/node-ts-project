@@ -58,7 +58,7 @@ describe('User - Register', () => {
     it('with no name', async () => {
       const res0 = await testServer
         .post('/register')
-        .send({ email: randomEmailGenerator(), password: randomPasswordGenerator() });
+        .send(validUser({ name: undefined }));
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.body.name');
@@ -78,7 +78,7 @@ describe('User - Register', () => {
     it('with no password', async () => {
       const res0 = await testServer
         .post('/register')
-        .send({ email: randomEmailGenerator(), name: 'name' }); // TODO: testar se dá pra usar o validUser com password '', se der certo, fazer em outros lugares onde testa sem algum campo
+        .send(validUser({ password: undefined }));
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.body.password');
@@ -88,7 +88,7 @@ describe('User - Register', () => {
     it('with no email', async () => {
       const res0 = await testServer
         .post('/register')
-        .send({ name: 'name', password: randomPasswordGenerator() });
+        .send(validUser({ email: undefined }));
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.body.email');
