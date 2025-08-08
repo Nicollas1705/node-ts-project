@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { testServer } from '../../../jest.setup';
-import { validCity, validPerson } from '../../../mocks/mocks';
+import { mockTempHeaders, validCity, validPerson } from '../../../mocks/mocks';
 import { IPersonCreate } from '../../../../src/server/database/providers/person/Create';
 
 const somePeople: string[] = [
@@ -29,17 +29,21 @@ describe('People - GetAll', () => {
   describe('after creation', () => {
     let cityId: number | undefined = undefined;
     beforeAll(async () => {
-      const response = await testServer.post('/cities').send(validCity());
+      const response = await testServer.post('/cities')
+        .set(mockTempHeaders)
+        .send(validCity());
       cityId = response.body;
 
       await Promise.all(
-        validPeopleList(cityId!).map(person => testServer.post('/people').send(person)),
+        validPeopleList(cityId!).map(person => testServer.post('/people')
+          .set(mockTempHeaders)
+          .send(person)),
       );
     });
 
     describe('should succeeds', () => {
       it('with some results', async () => {
-        const res0 = await testServer.get('/people').send();
+        const res0 = await testServer.get('/people').set(mockTempHeaders).send();
 
         expect(res0.statusCode).toEqual(StatusCodes.OK);
         expect(res0.body.length).toBeLessThanOrEqual(totalPeopleLength);
@@ -50,7 +54,7 @@ describe('People - GetAll', () => {
         const filter = 'o';
         const peopleWithFilterLength = somePeople.filter((city) => city.includes(filter)).length;
 
-        const res0 = await testServer.get(`/people?filter=${filter}`).send();
+        const res0 = await testServer.get(`/people?filter=${filter}`).set(mockTempHeaders).send();
 
         expect(res0.statusCode).toEqual(StatusCodes.OK);
         expect(Number(res0.headers['x-total-count'])).toBeGreaterThanOrEqual(peopleWithFilterLength);
@@ -59,7 +63,7 @@ describe('People - GetAll', () => {
       it('with non-existent filter', async () => {
         const filter = '@abc123@kh dawnd8382d32do2eh f2oofeu2f82hf 28rog42o 242';
 
-        const res0 = await testServer.get(`/people?filter=${filter}`).send();
+        const res0 = await testServer.get(`/people?filter=${filter}`).set(mockTempHeaders).send();
 
         expect(res0.statusCode).toEqual(StatusCodes.OK);
         expect(res0.body.length).toEqual(0);
@@ -67,7 +71,9 @@ describe('People - GetAll', () => {
       });
 
       it('with limit', async () => {
-        const res0 = await testServer.get(`/people?limit=${totalPeopleLength}`).send();
+        const res0 = await testServer.get(`/people?limit=${totalPeopleLength}`)
+          .set(mockTempHeaders)
+          .send();
 
         expect(res0.statusCode).toEqual(StatusCodes.OK);
         expect(res0.body.length).toEqual(totalPeopleLength);
@@ -79,7 +85,9 @@ describe('People - GetAll', () => {
         const limit = 3;
         const peopleWithFilterLength = somePeople.filter((city) => city.includes(filter)).length;
 
-        const res0 = await testServer.get(`/people?filter=${filter}&limit=${limit}`).send();
+        const res0 = await testServer.get(`/people?filter=${filter}&limit=${limit}`)
+          .set(mockTempHeaders)
+          .send();
         expect(res0.statusCode).toEqual(StatusCodes.OK);
         expect(res0.body.length).toEqual(limit);
         expect(Number(res0.headers['x-total-count'])).toBeGreaterThanOrEqual(peopleWithFilterLength);
@@ -88,7 +96,9 @@ describe('People - GetAll', () => {
       it('with pagination (page and limit)', async () => {
         const limit = 5;
         const page = 2;
-        const res0 = await testServer.get(`/people?limit=${limit}&page=${page}`).send();
+        const res0 = await testServer.get(`/people?limit=${limit}&page=${page}`)
+          .set(mockTempHeaders)
+          .send();
 
         expect(res0.statusCode).toEqual(StatusCodes.OK);
         expect(res0.body.length).toEqual(limit);
@@ -96,7 +106,9 @@ describe('People - GetAll', () => {
       });
 
       it('with pagination (page and limit), returning empty', async () => {
-        const res0 = await testServer.get('/people?limit=99999&page=99999').send();
+        const res0 = await testServer.get('/people?limit=99999&page=99999')
+          .set(mockTempHeaders)
+          .send();
 
         expect(res0.statusCode).toEqual(StatusCodes.OK);
         expect(res0.body.length).toEqual(0);
@@ -109,7 +121,9 @@ describe('People - GetAll', () => {
         const page = 2;
         const peopleWithFilterLength = somePeople.filter((city) => city.includes(filter)).length;
 
-        const res0 = await testServer.get(`/people?filter=${filter}&limit=${limit}&page=${page}`).send();
+        const res0 = await testServer.get(`/people?filter=${filter}&limit=${limit}&page=${page}`)
+          .set(mockTempHeaders)
+          .send();
 
         expect(res0.statusCode).toEqual(StatusCodes.OK);
         expect(res0.body.length).toEqual(limit);
@@ -118,10 +132,20 @@ describe('People - GetAll', () => {
     });
 
     describe('should fail', () => {
+      it('with no auth', async () => {
+        const res0 = await testServer.get('/people').send();
+
+        expect(res0.statusCode).toEqual(StatusCodes.UNAUTHORIZED);
+        expect(res0.body).toHaveProperty('errors.default');
+        expect(res0.body.errors.default).toContain('Auth required');
+      });
+
       it('with page 0', async () => {
         const page = 0;
 
-        const res0 = await testServer.get(`/people?page=${page}`).send();
+        const res0 = await testServer.get(`/people?page=${page}`)
+          .set(mockTempHeaders)
+          .send();
 
         expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
         expect(res0.body).toHaveProperty('errors.query.page');
@@ -131,7 +155,9 @@ describe('People - GetAll', () => {
       it('with limit 0', async () => {
         const limit = 0;
 
-        const res0 = await testServer.get(`/people?limit=${limit}`).send();
+        const res0 = await testServer.get(`/people?limit=${limit}`)
+          .set(mockTempHeaders)
+          .send();
 
         expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
         expect(res0.body).toHaveProperty('errors.query.limit');
@@ -141,7 +167,9 @@ describe('People - GetAll', () => {
       it('with page less than 0', async () => {
         const page = -1;
 
-        const res0 = await testServer.get(`/people?page=${page}`).send();
+        const res0 = await testServer.get(`/people?page=${page}`)
+          .set(mockTempHeaders)
+          .send();
 
         expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
         expect(res0.body).toHaveProperty('errors.query.page');
@@ -151,7 +179,9 @@ describe('People - GetAll', () => {
       it('with limit less than  0', async () => {
         const limit = -1;
 
-        const res0 = await testServer.get(`/people?limit=${limit}`).send();
+        const res0 = await testServer.get(`/people?limit=${limit}`)
+          .set(mockTempHeaders)
+          .send();
 
         expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
         expect(res0.body).toHaveProperty('errors.query.limit');

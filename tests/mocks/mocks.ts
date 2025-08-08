@@ -6,6 +6,7 @@ import { ICityUpdate } from '../../src/server/database/providers/city/UpdateById
 import { IPersonCreate } from '../../src/server/database/providers/person/Create';
 import { IPersonUpdate } from '../../src/server/database/providers/person/UpdateById';
 import { IUserCreate } from '../../src/server/database/providers/user/Create';
+import * as http from 'http';
 
 // * Random integer generator
 function randomInt(min: number = 0, max: number = 999999): number {
@@ -37,3 +38,10 @@ export const validUser = (user?: Partial<Omit<IUser, 'id'>>): IUserCreate => ({
   'password': randomPasswordGenerator(),
   ...user,
 });
+
+export const setAuthorization = (accessToken: string) => { // * Set Bearer token to test requests while logged in
+  mockTempHeaders = { authorization: `Bearer ${accessToken}` };
+};
+
+export let mockTempHeaders: http.IncomingHttpHeaders = {};
+// * To use it after set authorization, add '.set(mockTempHeaders)' to requests before '.send()'

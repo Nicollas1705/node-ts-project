@@ -1,16 +1,21 @@
 import { StatusCodes } from 'http-status-codes';
 import { testServer } from '../../../jest.setup';
+import { mockTempHeaders } from '../../../mocks/mocks';
 
 describe('City - GetById', () => {
   describe('should succeeds', () => {
     it('with valid request', async () => {
       const nameMock = 'test';
-      const res0 = await testServer.post('/cities').send({ 'name': nameMock });
+      const res0 = await testServer.post('/cities')
+        .set(mockTempHeaders)
+        .send({ 'name': nameMock });
 
       expect(res0.statusCode).toEqual(StatusCodes.CREATED);
       expect(typeof res0.body).toEqual('number');
 
-      const res1 = await testServer.get(`/cities/${res0.body}`).send();
+      const res1 = await testServer.get(`/cities/${res0.body}`)
+        .set(mockTempHeaders)
+        .send();
 
       expect(res1.statusCode).toEqual(StatusCodes.OK);
       expect(res1.body).toHaveProperty('name');
@@ -19,8 +24,24 @@ describe('City - GetById', () => {
   });
 
   describe('should fail', () => {
+    it('with no auth', async () => {
+      const nameMock = 'test';
+      const res0 = await testServer.post('/cities')
+        .set(mockTempHeaders)
+        .send({ 'name': nameMock });
+
+      expect(res0.statusCode).toEqual(StatusCodes.CREATED);
+      expect(typeof res0.body).toEqual('number');
+
+      const res1 = await testServer.get(`/cities/${res0.body}`).send();
+
+      expect(res1.statusCode).toEqual(StatusCodes.UNAUTHORIZED);
+      expect(res1.body).toHaveProperty('errors.default');
+      expect(res1.body.errors.default).toContain('Auth required');
+    });
+
     it('with invalid text id', async () => {
-      const res0 = await testServer.get('/cities/string').send();
+      const res0 = await testServer.get('/cities/string').set(mockTempHeaders).send();
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.params.id');
@@ -28,7 +49,7 @@ describe('City - GetById', () => {
     });
 
     it('with decimal id', async () => {
-      const res0 = await testServer.get('/cities/1.1').send();
+      const res0 = await testServer.get('/cities/1.1').set(mockTempHeaders).send();
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.params.id');
@@ -36,7 +57,7 @@ describe('City - GetById', () => {
     });
 
     it('with 0 id', async () => {
-      const res0 = await testServer.get('/cities/0').send();
+      const res0 = await testServer.get('/cities/0').set(mockTempHeaders).send();
 
       expect(res0.statusCode).toEqual(StatusCodes.BAD_REQUEST);
       expect(res0.body).toHaveProperty('errors.params.id');
@@ -44,7 +65,7 @@ describe('City - GetById', () => {
     });
     
     it('with non-existent id', async () => {
-      const res0 = await testServer.get('/cities/999999').send();
+      const res0 = await testServer.get('/cities/999999').set(mockTempHeaders).send();
 
       expect(res0.statusCode).toEqual(StatusCodes.INTERNAL_SERVER_ERROR);
       expect(res0.body).toHaveProperty('errors.default');

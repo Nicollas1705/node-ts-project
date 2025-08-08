@@ -12,6 +12,8 @@
 // It can be added as script
 // * Note: when added to script, if 'npm SCRIPT_NAME' is not working, use 'npm run SCRIPT_NAME'
 
+// ! Note: about SQLite, the DB is always reseted when a new server is run in prod (like in heroku)
+
 import { Knex } from 'knex';
 import { ETableName } from '../ETableNames';
 import { devLog } from '../../utils/utils';
