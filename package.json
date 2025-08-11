@@ -10,7 +10,7 @@
     "test": "jest",
     "build": "tsc",
     "start": "ts-node-dev ./src/index.ts && echo Start server",
-    "production-build": "node ./build/index.js && echo Start server on prod",
+    "production-start": "node ./build/index.js && echo Start server on prod",
     "postinstall": "tsc && echo Command run after install libs",
     "knex:migrate": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:latest && echo Call migration up",
     "knex:rollback": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:rollback && echo Call migration down for last mitration",
@@ -24,6 +24,7 @@
     "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
+    "pg": "^8.16.3",
     "yup": "^1.6.1"
   },
   "devDependencies": {
@@ -35,6 +36,7 @@
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/pg": "^8.15.5",
     "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
