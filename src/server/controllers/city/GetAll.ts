@@ -26,8 +26,10 @@ export const getAll: RequestHandler<{}, {}, {}, IQueryProps> = async (req, res) 
   // console.log(req.query.page); // * The 'page' is autocompleted since it has a type
 
   const filter = req.query.filter ?? '';
-  const result = await CityProvider
-    .getAll(req.query.page ?? 1, req.query.limit ?? 10, filter, Number(req.query.id));
+  const page = req.query.page ?? 1;
+  const limit = req.query.limit ?? 10;
+  const id = Number(req.query.id ?? 0);
+  const result = await CityProvider.getAll(page, limit, filter, id);
   const totalCount = await CityProvider.count(filter);
 
   if (result instanceof Error) return defaultErrorResponse(res, result);

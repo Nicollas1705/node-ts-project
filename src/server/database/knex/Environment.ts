@@ -9,6 +9,7 @@ export const development: Knex.Config = { // * Ensure to use the correct variabl
   client: 'sqlite3',
   useNullAsDefault: true,
   connection: { // * The file in where the DB will be
+    // * Note: as it is a local DB, when a new deploy is done, a new DB is created with the initial data from 'seeds' files
     filename: path.resolve(__dirname, '..', '..', '..', '..', 'database.sqlite') // The file will be created after running
   },
   migrations: {

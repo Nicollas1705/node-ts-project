@@ -22,7 +22,9 @@ export const getAllValidation = validation((getSchema) => ({
 
 export const getAll: RequestHandler<{}, {}, {}, IQueryProps> = async (req, res) => {
   const filter = req.query.filter ?? '';
-  const result = await PersonProvider.getAll(req.query.page ?? 1, req.query.limit ?? 10, filter);
+  const page = req.query.page ?? 1;
+  const limit = req.query.limit ?? 10;
+  const result = await PersonProvider.getAll(page, limit, filter);
   const totalCount = await PersonProvider.count(filter);
 
   if (result instanceof Error) return defaultErrorResponse(res, result);
