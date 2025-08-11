@@ -7,9 +7,8 @@ const tableName = ETableName.person;
 export const count = async (filter: string = ''): Promise<number | Error> => {
   try {
     const [{ count }] = await Knex(tableName)
-      .select('*')
       .where('name', 'LIKE', `%${filter}%`)
-      .count<[{ count: number }]>('* as count');
+      .count<[{ count: string }]>('* as count');
 
     if (Number.isInteger(Number(count))) return Number(count);
 

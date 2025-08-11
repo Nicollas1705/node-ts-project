@@ -9,9 +9,9 @@ export const count = async (filter: string = ''): Promise<number | Error> => {
   try {
     // Knex('city').insert({ ... }); // * Autocompleted even typing strings
     const [{ count }] = await Knex(tableName)
-      .select('*')
       .where('name', 'LIKE', `%${filter}%`)
-      .count<[{ count: number }]>('* as count'); // * The total rows with the filter. The '<>' is used to force the type
+      .count<[{ count: string }]>('* as count'); // * The total rows with the filter. The '<>' is used to force the type
+    // * In PostegreSQL, the 'count' could return as string in some cases, due to this, it is typed as object
 
     if (Number.isInteger(Number(count))) return Number(count);
 
