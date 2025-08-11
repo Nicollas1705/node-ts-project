@@ -1,0 +1,124 @@
+### VSCode extension: REST Client
+
+@localUrl=http://localhost:3333
+@remoteUrl=https://node-ts-project.onrender.com
+@url={{localUrl}}
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1NDk1MDYxMCwiZXhwIjoxNzU1MDM3MDEwfQ.O6E1BGAFQ84fD7QXHQYNLuCuv5dzlB0Epoa5t9n9tLk
+
+### Example
+
+GET {{url}}/
+
+########################################################################
+### CITY
+########################################################################
+
+### Create cities
+
+POST {{url}}/cities
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Nico city"
+}
+
+### List cities
+
+GET {{url}}/cities?limit=100
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### Get city ID
+
+GET {{url}}/cities/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Update city ID
+
+PUT {{url}}/cities/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Nico city"
+}
+
+### Delete city ID
+
+DELETE {{url}}/cities/30
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+########################################################################
+### PERSON
+########################################################################
+
+### Create people
+
+POST {{url}}/people
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Jhon",
+  "cityId": 12,
+  "email": "jhon@email.com"
+}
+
+### List people
+
+GET {{url}}/people
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###?filter=a&page=2&limit=3
+
+### Get city ID
+
+GET {{url}}/people/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Update city ID
+
+PUT {{url}}/people/2
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Nico nico 22222222222222"
+}
+
+### Delete city ID
+
+DELETE {{url}}/people/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+########################################################################
+### USER
+########################################################################
+
+### Sign in
+
+POST {{url}}/sign-in
+Content-Type: application/json
+
+{
+  "password": "123456",
+  "email": "nico@email.com"
+}
+
+### Register
+
+POST {{url}}/register
+Content-Type: application/json
+
+{
+  "name": "Nico",
+  "password": "123456",
+  "email": "nico@email.com"
+}
